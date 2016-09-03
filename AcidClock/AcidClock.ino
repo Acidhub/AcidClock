@@ -94,7 +94,7 @@ void mxConfig(void) {
   int devices=mx.getDeviceCount();
   for(int matrix=0;matrix<devices;matrix++) {
     mx.shutdown(matrix,false);          // Wake up
-    mx.setIntensity(matrix,2);          // set luminosity and
+    mx.setIntensity(matrix,4);          // set luminosity and
     mx.clearDisplay(matrix);            // clear.
   }
 }
@@ -206,7 +206,7 @@ void setup() {
 void loop() {
     delay_++;
 
-    if(delay_ <= 12) {
+    if(delay_ <= 6) {
         displayHour();
 
         byte working = random(0x0, 0xff);
@@ -214,23 +214,23 @@ void loop() {
         mx.setColumn(0,1, working);
         mx.setColumn(1,0, ~working);
         mx.setColumn(1,1, ~working);
-    } else if((delay_ > 12) && (delay_ <= 20)) {
+    } else if((delay_ > 6) && (delay_ <= 10)) {
         displayDate();
 
         mx.setColumn(0,0, ~lowerd);
         mx.setColumn(0,1, lowerd);
         mx.setColumn(1,0, lowerd);
         mx.setColumn(1,1, ~lowerd);
-        lowerd = ((lowerd >> 1) + 0x80);
+        lowerd = ((lowerd >> 2) + 0x80);
         lowert = 1;
-    } else if((delay_ > 20) && (delay_ <= 28)) {
+    } else if((delay_ > 10) && (delay_ <= 14)) {
         displayTemp();
 
         mx.setColumn(0,0, lowert);
         mx.setColumn(0,1, ~lowert);
         mx.setColumn(1,0, ~lowert);
         mx.setColumn(1,1, lowert);
-        lowert = ((lowert << 1) + 1);
+        lowert = ((lowert << 2) + 1);
         lowerd = 0x80;
     } else delay_ = 0;                    // Reset counter
 
