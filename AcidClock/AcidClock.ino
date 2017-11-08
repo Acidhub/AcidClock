@@ -114,7 +114,6 @@ byte DSread(byte reg) {
     Wire.beginTransmission(DS_ADDRESS);
     Wire.write(reg);                    // Move to register
     Wire.endTransmission();
-
     Wire.requestFrom(DS_ADDRESS, 1);    // Request 1 byte
     return Wire.read();                 // Return with response
 }
@@ -164,6 +163,12 @@ void displayHour(void) {
     writeNumber(2, btod((hour & 0x0f)));                  // Get second digit
     writeNumber(3, btod((minute >> 4) & ((1 << 4) - 1)));
     writeNumber(4, btod((minute & 0x0f)));
+
+    Serial.print("Hour: ");
+    Serial.print(btod(hour));
+    Serial.print(":");
+    Serial.print(btod(minute));
+    Serial.println();
 }
 
 void displayDate(void) {
@@ -176,6 +181,12 @@ void displayDate(void) {
     writeNumber(2, btod((mday & 0x0f)));
     writeNumber(3, btod((month >> 4) & ((1 << 4) - 1)));
     writeNumber(4, btod((month & 0x0f)));
+
+    Serial.print("Date: ");
+    Serial.print(btod(mday));
+    Serial.print("/");
+    Serial.print(btod(month));
+    Serial.println();
 }
 
 void displayTemp(void) {
@@ -191,6 +202,9 @@ void displayTemp(void) {
     writeNumber(1, (temp / 10 % 10));
     writeNumber(2, (temp % 10));
     writeNumber(4, 12);
+
+    Serial.print("Temp: ");
+    Serial.println(btod(temp));
 }
 
 void setup() {
@@ -199,7 +213,7 @@ void setup() {
     mxConfig();
 
     // Uncomment bellow line to set your clock
-    //DSsetDate(16, 31, 1, 29, 8, 16);
+    //DSsetDate(1, 12, 4, 8, 11, 17);
     // Syntax: DSsetDate(hour, minute, weekDay, day, month, year);
 }
 
